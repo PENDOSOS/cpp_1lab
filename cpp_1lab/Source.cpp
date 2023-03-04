@@ -51,12 +51,18 @@ void writeRoots(vector<double> roots)
 	ofstream fout("output.txt");
 	for (int i = 0; i < roots.size(); i++)
 		fout << roots[i] << " ";
+	fout.close();
+}
+
+void writeMessage()
+{
+	ofstream fout("output.txt");
+	fout << "No roots in real numbers";
+	fout.close();
 }
 
 int main()
 {
-	setlocale(LC_ALL, "Russian");
-
 	vector<double> coefs;
 	vector<double> roots;
 	double discriminant;
@@ -69,7 +75,7 @@ int main()
 		writeRoots(roots);
 	}
 	else
-		cout << "Решений в вещественных числах нет";
+		writeMessage();
 
 	return 0;
 }
