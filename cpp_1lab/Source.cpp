@@ -4,7 +4,7 @@
 
 using namespace std;
 
-vector<double> readCoefs()
+const vector<double> readCoefs()
 {
 	vector<double> coefs;
 	double buff;
@@ -20,17 +20,17 @@ vector<double> readCoefs()
 	return coefs;
 }
 
-double findDiscriminant(vector<double> coefs)
+const double findDiscriminant(const vector<double>& coefs)
 {	
 	return coefs[1] * coefs[1] - 4 * coefs[0] * coefs[2];
 }
 
-bool checkForRoots(double discriminant)
+bool checkForRoots(const double& discriminant)
 {
 	return discriminant >= 0;
 }
 
-vector<double> findRoots(double a, double b, double discriminant)
+const vector<double> findRoots(const double& a, const double& b, const double& discriminant)
 {
 	vector<double> roots;
 	if (discriminant == 0)
@@ -46,7 +46,7 @@ vector<double> findRoots(double a, double b, double discriminant)
 	}
 }
 
-void writeRoots(vector<double> roots)
+void writeRoots(const vector<double>& roots)
 {
 	ofstream fout("output.txt");
 	for (int i = 0; i < roots.size(); i++)
@@ -61,17 +61,26 @@ void writeMessage()
 	fout.close();
 }
 
+void writeAboutError()
+{
+	ofstream fout("output.txt");
+	fout << "Error, this is not a square equation (a = 0).";
+	fout.close();
+}
+
 int main()
 {
-	vector<double> coefs;
-	vector<double> roots;
-	double discriminant;
-
-	coefs = readCoefs();
-	discriminant = findDiscriminant(coefs);
+	
+	const vector<double> coefs = readCoefs();
+	if (coefs[0] == 0)
+	{
+		writeAboutError();
+		return 0;
+	}
+	const double discriminant = findDiscriminant(coefs);
 	if (checkForRoots(discriminant))
 	{
-		roots = findRoots(coefs[0], coefs[1], discriminant);
+		const vector<double> roots = findRoots(coefs[0], coefs[1], discriminant);
 		writeRoots(roots);
 	}
 	else
