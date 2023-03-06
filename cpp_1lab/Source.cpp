@@ -30,12 +30,17 @@ bool checkForRoots(const double& discriminant)
 	return discriminant >= 0;
 }
 
-const vector<double> findRoots(const double& a, const double& b, const double& discriminant)
+const vector<double> findRoots(const double& a, const double& b, const double& c, const double& discriminant)
 {
 	vector<double> roots;
 	if (discriminant == 0)
 	{
 		roots.push_back(b * b / (2 * a));
+		return roots;
+	}
+	else if (a == 0)
+	{
+		roots.push_back(-c/b);
 		return roots;
 	}
 	else
@@ -61,26 +66,13 @@ void writeMessage()
 	fout.close();
 }
 
-void writeAboutError()
-{
-	ofstream fout("output.txt");
-	fout << "Error, this is not a square equation (a = 0).";
-	fout.close();
-}
-
 int main()
 {
-	
 	const vector<double> coefs = readCoefs();
-	if (coefs[0] == 0)
-	{
-		writeAboutError();
-		return 0;
-	}
 	const double discriminant = findDiscriminant(coefs);
 	if (checkForRoots(discriminant))
 	{
-		const vector<double> roots = findRoots(coefs[0], coefs[1], discriminant);
+		const vector<double> roots = findRoots(coefs[0], coefs[1], coefs[2], discriminant);
 		writeRoots(roots);
 	}
 	else
